@@ -1,0 +1,55 @@
+{%extends 'accounts/base.html'%}
+{%block content%}
+<br>
+<div class="container p-5">
+  <div class="jumbotron">
+    <div class="row">
+      <div class="col-sm-5">
+<img src="{{details_obj.image.url}}" width="400" height="550">
+</div>
+<div class="col-sm-7">
+  <div class="owner p-2">
+  <b>Owner:</b>  {{details_obj.owner}}
+  </div>
+  <div class="price p-2">
+    <b>Price:</b>  ${{details_obj.price}}
+    </div>
+    <div class="location p-2">
+      <b>Location:</b>  {{details_obj.location}}
+      </div>
+      <div class="Email p-2">
+        <b>Email:</b> {{details_obj.contact_email}}
+        </div>
+        <div class="Phone p-2">
+          <b>Phone:</b> {{details_obj.contact_phone}}
+          </div>
+    <div class="description p-2" align=center>
+      <h5>Description.</h5>
+      {{details_obj.description}}
+      </div>
+      <div class="button p-5" align=center>
+        <a href="{%url 'myapp:add' details_obj.pk%}">
+      <button class="btn btn-primary">+Add To Dashboard</button>
+      </a>
+      </div>
+  </div>
+
+</div>
+<hr>
+<div class="row">
+  <div class="card p-1">
+<img src="{{details_obj.display_image1.url}}" width="230" height="250">
+</div>
+<div class="card p-1">
+<img src="{{details_obj.display_image2.url}}" width="230" height="250">
+</div>
+<div class="card p-1">
+<img src="{{details_obj.display_image3.url}}" width="230" height="250">
+</div>
+<div class="card p-1">
+<img src="{{details_obj.display_image4.url}}" width="230" height="250">
+</div>
+  </div>
+</div>
+</div>
+{%endblock%}

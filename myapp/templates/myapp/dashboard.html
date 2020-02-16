@@ -1,0 +1,35 @@
+{%extends 'accounts/base.html'%}
+{%block content%}
+<div class="jumbotron">
+    <div class="col-md-9 m-3">
+
+  <table class="table table-bordered table-striped">
+  <thead style=background-color:orange;>
+    <tr>
+  <th>Cover</th>
+  <th>Location</th>
+  <th>Price</th>
+  <th>Date</th>
+  </tr>
+    </thead>
+    {%for dash in dash%}
+    {%for houses in dash.houses.all%}
+    <tr>
+      <td><img src="{{houses.house.image.url}}" width="150" height="200" alt="img"></td>
+      <td>{{houses.house.location}}</td>
+      <td>{{houses.house.price}}</td>
+      <td>{{dash.date_added}}</td>
+      </tr>
+      {%endfor%}
+      {%endfor%}
+
+
+
+
+          </table>
+    </div>
+    </div>
+
+
+</div>
+{%endblock%}

@@ -1,0 +1,47 @@
+{%extends 'accounts/base.html'%}
+{%load crispy_forms_tags%}
+{%block content%}
+<form method="POST" action="">
+{%csrf_token%}
+<main role="main m-5" class="container">
+<div class="jumbotron m-5">
+  <div class="row">
+    <div class="col-md-2">
+
+
+      </div>
+
+
+<div class="col-md-8">
+  <div class="card">
+  <legend align=center><b><font face="cambria" size='6'>Login</font></b></legend>
+  <hr>
+  <div class="col-sm-6">
+  {{form|crispy}}
+  <button class="btn btn-primary">Login</button>
+  </div>
+  <br>
+</div>
+  </div>
+
+  </div>
+  </div>
+
+</main>
+  </form>
+{%endblock%}
+
+
+<div class="col-md-3">
+  <div class="card">
+    <div class="content-section">
+      <h3 class="p-3">Travellers <code>+254</code></h3>
+      <ul class="list-group">
+        <li class="list-group-item list-grouo-item-light">Dav</li>
+          <li class="list-group-item list-grouo-item-light">Dav</li>
+            <li class="list-group-item list-grouo-item-light">Dav</li>
+              <li class="list-group-item list-grouo-item-light">Dav</li>
+        </ul>
+        </div>
+</div>
+  </div>

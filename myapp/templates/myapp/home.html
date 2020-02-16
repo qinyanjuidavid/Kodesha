@@ -1,0 +1,26 @@
+{%extends 'accounts/base.html'%}
+{%block content%}
+<div class="jumbotron">
+  <h4 align=center>Latest Listings</h4>
+  <div class="row">
+  {%for house in house_obj%}
+  <div class="card m-1" style=background-color:white; align=center>
+    <a href="{%url 'myapp:details' house.pk%}">
+    <img src="{{house.image.url}}" width="235" height="280">
+    </a>
+    <b>
+
+      <div class="price p-1">
+        <mark class="bg-info" style=color:white;>
+    ${{house.price}}
+    </mark>
+    </div>
+    <div class="location" style=color:orange;>
+    {{house.location}}
+    </div>
+    </b>
+    </div>
+  {%endfor%}
+  </div>
+  </div>
+{%endblock%}
