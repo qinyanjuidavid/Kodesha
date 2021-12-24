@@ -14,7 +14,7 @@ SECRET_KEY = '+=s338y2$%)pe6=r66#a7p@(zim^b3&hx9(&2#y-v@2go4&0$7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -26,11 +26,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_icons',
-    'accounts',
+    # Local Apps
+    'accounts.apps.AccountsConfig',
+    #3rd party apps
     'crispy_forms',
-    'myapp',
-    'bootstrap4'
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [
@@ -48,7 +48,7 @@ ROOT_URLCONF = 'property.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -118,3 +118,7 @@ MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 LOGIN_URL='/'
 LOGIN_REDIRECT_URL='/profile/'
 CRISPY_TEMPLATE_PACK='bootstrap4'
+# Default primary key field type
+# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
