@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Local Apps
     'accounts.apps.AccountsConfig',
+    'Properties.apps.PropertiesConfig',
     #3rd party apps
     'crispy_forms',
     'phonenumber_field',

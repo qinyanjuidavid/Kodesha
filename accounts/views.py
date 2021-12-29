@@ -14,11 +14,11 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.views.decorators.cache import never_cache
 from django.views.generic import CreateView
 from accounts.tokens import account_activation_token
-from accounts.sendMail import send_activation_mail
-
+from accounts.sendMails import send_activation_mail
+from accounts.models import User
 from accounts.forms import UserSignupForm
 
-class ClientSignupView(CreateView):
+class BuyerSignupView(CreateView):
 	model=User
 	form_class=UserSignupForm
 	template_name="accounts/clientSignup.html"

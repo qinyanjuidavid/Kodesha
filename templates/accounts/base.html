@@ -20,17 +20,18 @@
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
               {%if user.is_authenticated%}
-              <a class="nav-item nav-link text-white" href="{%url 'myapp:home'%}">Home</a>
-              <a class="nav-item nav-link text-white" href="{%url 'accounts:profile'%}">profile</a>
+              <a class="nav-item nav-link text-white" href="">Home</a>
+              <a class="nav-item nav-link text-white" href="">profile</a>
               {%endif%}
               </div>
               <div class="navbar-nav">
                 {%if user.is_authenticated%}
-                <a class="nav-item nav-link text-white" href="{%url 'myapp:dashboard'%}"><i class="fa fa-dashboard fa-lg"></i></a>
+                <a class="nav-item nav-link text-white" href=""><i class="fa fa-dashboard fa-lg"></i></a>
                 <a class="nav-item nav-link text-white" href="{%url 'accounts:logout'%}">Logout</a>
                 {%else%}
                 <a class="nav-item nav-link text-white" href="{%url 'accounts:login'%}">Login</a>
-                <a class="nav-item nav-link text-white" href="{%url 'accounts:register'%}">Register</a>
+                <a class="nav-item nav-link text-white" href="">Client</a>
+                <a class="nav-item nav-link text-white" href="">Seller</a>
                 {%endif%}
                 </div>
                 </div>

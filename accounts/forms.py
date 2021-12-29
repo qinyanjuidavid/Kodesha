@@ -1,4 +1,4 @@
-from accounts.models import User,Administrator,Seller,Client
+from accounts.models import User,Administrator,Seller,Buyer
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.db import transaction
@@ -9,7 +9,7 @@ class UserSignupForm(forms.ModelForm):
 
     class Meta:
         model=User
-        fields=('username','phone','email')
+        fields=('username','phone','email','role')
 
     password1=forms.CharField(label="Password",widget=forms.PasswordInput)
     password2=forms.CharField(label="Password Confirmation",widget=forms.PasswordInput)

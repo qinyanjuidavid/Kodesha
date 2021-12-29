@@ -61,8 +61,8 @@ class User(AbstractBaseUser, TrackingModel):
     username_validator = UnicodeUsernameValidator()
     Role_choices = (
         ("Administrator", "Administrator"),
-        ("Seller","Seller"),
-        ("Client","Client")
+        ("Buyer","Buyer"),
+        ("Seller","Seller")
     )
     username = models.CharField(
         _('username'),
@@ -146,7 +146,7 @@ class Administrator(Profile):
     def __str__(self):
         return self.user.username
 
-class Client(Profile):
+class Buyer(Profile):
     pass
 
     def __str__(self):
