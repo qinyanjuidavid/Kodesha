@@ -1,0 +1,794 @@
+{%extends 'accounts/base.html'%} {%load crispy_forms_tags%}
+<!-- -->
+{%block title%} {%endblock%}
+<!-- -->
+{%block content%}
+
+<div class="mt-5"></div>
+<form method="POST" action="" enctype="multipart/form-data">
+  {% csrf_token %} {{form|crispy}}
+  <legend>Basic Information</legend>
+  <div class="row">
+    <div class="col-sm-4">
+      <input
+        type="text"
+        class="form-control pt-4 pb-4 col-sm-12"
+        id=""
+        name="propety_title"
+        placeholder="Property Title"
+        required
+      />
+    </div>
+  </div>
+
+  <legend>Property Gallery</legend>
+
+  <legend>Location</legend>
+
+  <legend>Detailed Information</legend>
+
+  <legend>Features(optional)</legend>
+
+  <legend>Contact Details</legend>
+
+  <button class="btn btn-success btn-sm">Submit</button>
+</form>
+{%endblock%}
+<!-- -->
+{%block javascript%}{%endblock%}
+
+<style></style>
+<div class="container">
+  <div class="col-md-12">
+    <div class="notification-box">
+      <h3>Don't Have an Account?</h3>
+      <p>
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
+        actortor at tellus feugiat congue quis ut nunc. Semper ac dolor vitae
+        accumsan."
+      </p>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <div class="submit-address">
+      <form method="GET">
+        <div class="main-title-2">
+          <h1>Basic Information</h1>
+        </div>
+        <div class="search-contents-sidebar mb-30">
+          <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label
+                  for="inputproperty-title1"
+                  style="font-size: 20px; margin: 0 0 10px; font-weight: 600"
+                  class="form-label"
+                  >Property Title</label
+                >
+
+                <input
+                  type="text"
+                  name="property-title"
+                  class="form-control pt-4 pb-4 col-sm-12"
+                  style="padding: 10px 20px; font-size: 16px; width: 100"
+                  id="inputproperty-title1"
+                  placeholder="Property Title"
+                />
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label
+                  for="inputproperty-title1"
+                  style="font-size: 20px; margin: 0 0 10px; font-weight: 600"
+                  class="form-label"
+                  >Property Type</label
+                >
+
+                <div class="dropdown bootstrap-select search-fields">
+                  <select class="selectpicker search-fields" name="for-sale">
+                    <option>For Sale</option>
+                    <option>For Rent</option></select
+                  ><button
+                    type="button"
+                    tabindex="-1"
+                    class="btn dropdown-toggle btn-light"
+                    data-bs-toggle="dropdown"
+                    role="combobox"
+                    aria-owns="bs-select-1"
+                    aria-haspopup="listbox"
+                    aria-expanded="false"
+                    title="For Sale"
+                  >
+                    <div class="filter-option">
+                      <div class="filter-option-inner">
+                        <div class="filter-option-inner-inner">For Sale</div>
+                      </div>
+                    </div>
+                  </button>
+                  <div class="dropdown-menu">
+                    <div
+                      class="inner show"
+                      role="listbox"
+                      id="bs-select-1"
+                      tabindex="-1"
+                    >
+                      <ul
+                        class="dropdown-menu inner show"
+                        role="presentation"
+                      ></ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label
+                  for="inputproperty-title1"
+                  style="font-size: 20px; margin: 0 0 10px; font-weight: 600"
+                  class="form-label"
+                  >Property Status</label
+                >
+
+                <div class="dropdown bootstrap-select search-fields">
+                  <select class="selectpicker search-fields" name="apartment">
+                    <option>Apartment</option>
+                    <option>House</option>
+                    <option>Commercial</option>
+                    <option>Garage</option>
+                    <option>Lot</option></select
+                  ><button
+                    type="button"
+                    tabindex="-1"
+                    class="btn dropdown-toggle btn-light"
+                    data-bs-toggle="dropdown"
+                    role="combobox"
+                    aria-owns="bs-select-2"
+                    aria-haspopup="listbox"
+                    aria-expanded="false"
+                    title="Apartment"
+                  >
+                    <div class="filter-option">
+                      <div class="filter-option-inner">
+                        <div class="filter-option-inner-inner">Apartment</div>
+                      </div>
+                    </div>
+                  </button>
+                  <div class="dropdown-menu">
+                    <div
+                      class="inner show"
+                      role="listbox"
+                      id="bs-select-2"
+                      tabindex="-1"
+                    >
+                      <ul
+                        class="dropdown-menu inner show"
+                        role="presentation"
+                      ></ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label
+                  for="inputprice1"
+                  style="font-size: 20px; margin: 0 0 10px; font-weight: 600"
+                  class="form-label"
+                  >Price</label
+                >
+                <input
+                  type="text"
+                  name="price"
+                  class="form-control"
+                  id="inputprice1"
+                  placeholder="USD"
+                />
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label
+                  for="inputname1"
+                  style="font-size: 20px; margin: 0 0 10px; font-weight: 600"
+                  class="form-label"
+                  >Area/Location</label
+                >
+                <input
+                  type="text"
+                  name="name"
+                  class="form-control"
+                  id="inputname1"
+                  placeholder="SqFt"
+                />
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label>Rooms</label>
+                <div class="dropdown bootstrap-select search-fields">
+                  <select class="selectpicker search-fields" name="rooms">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option></select
+                  ><button
+                    type="button"
+                    tabindex="-1"
+                    class="btn dropdown-toggle btn-light"
+                    data-bs-toggle="dropdown"
+                    role="combobox"
+                    aria-owns="bs-select-3"
+                    aria-haspopup="listbox"
+                    aria-expanded="false"
+                    title="1"
+                  >
+                    <div class="filter-option">
+                      <div class="filter-option-inner">
+                        <div class="filter-option-inner-inner">1</div>
+                      </div>
+                    </div>
+                  </button>
+                  <div class="dropdown-menu">
+                    <div
+                      class="inner show"
+                      role="listbox"
+                      id="bs-select-3"
+                      tabindex="-1"
+                    >
+                      <ul
+                        class="dropdown-menu inner show"
+                        role="presentation"
+                      ></ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label>Bathroom</label>
+                <div class="dropdown bootstrap-select search-fields">
+                  <select class="selectpicker search-fields" name="bathroom">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option></select
+                  ><button
+                    type="button"
+                    tabindex="-1"
+                    class="btn dropdown-toggle btn-light"
+                    data-bs-toggle="dropdown"
+                    role="combobox"
+                    aria-owns="bs-select-4"
+                    aria-haspopup="listbox"
+                    aria-expanded="false"
+                    title="1"
+                  >
+                    <div class="filter-option">
+                      <div class="filter-option-inner">
+                        <div class="filter-option-inner-inner">1</div>
+                      </div>
+                    </div>
+                  </button>
+                  <div class="dropdown-menu">
+                    <div
+                      class="inner show"
+                      role="listbox"
+                      id="bs-select-4"
+                      tabindex="-1"
+                    >
+                      <ul
+                        class="dropdown-menu inner show"
+                        role="presentation"
+                      ></ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label>Balcony</label>
+                <div class="dropdown bootstrap-select search-fields">
+                  <select class="selectpicker search-fields" name="balcony">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option></select
+                  ><button
+                    type="button"
+                    tabindex="-1"
+                    class="btn dropdown-toggle btn-light"
+                    data-bs-toggle="dropdown"
+                    role="combobox"
+                    aria-owns="bs-select-5"
+                    aria-haspopup="listbox"
+                    aria-expanded="false"
+                    title="1"
+                  >
+                    <div class="filter-option">
+                      <div class="filter-option-inner">
+                        <div class="filter-option-inner-inner">1</div>
+                      </div>
+                    </div>
+                  </button>
+                  <div class="dropdown-menu">
+                    <div
+                      class="inner show"
+                      role="listbox"
+                      id="bs-select-5"
+                      tabindex="-1"
+                    >
+                      <ul
+                        class="dropdown-menu inner show"
+                        role="presentation"
+                      ></ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label>Garage</label>
+                <div class="dropdown bootstrap-select search-fields">
+                  <select class="selectpicker search-fields" name="garage">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option></select
+                  ><button
+                    type="button"
+                    tabindex="-1"
+                    class="btn dropdown-toggle btn-light"
+                    data-bs-toggle="dropdown"
+                    role="combobox"
+                    aria-owns="bs-select-6"
+                    aria-haspopup="listbox"
+                    aria-expanded="false"
+                    title="1"
+                  >
+                    <div class="filter-option">
+                      <div class="filter-option-inner">
+                        <div class="filter-option-inner-inner">1</div>
+                      </div>
+                    </div>
+                  </button>
+                  <div class="dropdown-menu">
+                    <div
+                      class="inner show"
+                      role="listbox"
+                      id="bs-select-6"
+                      tabindex="-1"
+                    >
+                      <ul
+                        class="dropdown-menu inner show"
+                        role="presentation"
+                      ></ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="main-title-2">
+          <h1>Property Gallery</h1>
+        </div>
+        <form>
+          <div
+            id="myDropZone"
+            class="dropzone dropzone-design mb-50 dz-clickable"
+          >
+            <div class="dz-default dz-message">
+              <span>Drop files here to upload</span>
+            </div>
+          </div>
+        </form>
+        <form
+          action="."
+          method="POST"
+          id="my-dropzone"
+          enctype="multipart/form-data"
+          class="dropzone dz mt-2 mb-2"
+        >
+          {%csrf_token%}
+          <div class="dz-message" data-dz-message>
+            <span
+              >Drag & Drop the Driver's Licence<br />Or<br />Click to
+              Upload</span
+            >
+          </div>
+
+          <div class="fallback">
+            <input name="driving_licence" type="file" />
+          </div>
+        </form>
+
+        <div class="main-title-2">
+          <h1>Location</h1>
+        </div>
+        <div class="row mb-30">
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label for="inputaddress1" class="form-label">Address</label>
+              <input
+                type="email"
+                name="address"
+                class="form-control"
+                id="inputaddress1"
+                placeholder="Address"
+              />
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label>City</label>
+              <div class="dropdown bootstrap-select search-fields">
+                <select class="selectpicker search-fields" name="city">
+                  <option>Choose City</option>
+                  <option>New York</option>
+                  <option>Los Angeles</option>
+                  <option>Chicago</option>
+                  <option>Brooklyn</option>
+                  <option>Queens</option>
+                  <option>Houston</option>
+                  <option>Manhattan</option>
+                  <option>Philadelphia</option>
+                  <option>Phoenix</option>
+                  <option>San Antonio</option>
+                  <option>Bronx</option>
+                  <option>San Diego</option>
+                  <option>Dallas</option>
+                  <option>San Jose</option></select
+                ><button
+                  type="button"
+                  tabindex="-1"
+                  class="btn dropdown-toggle btn-light"
+                  data-bs-toggle="dropdown"
+                  role="combobox"
+                  aria-owns="bs-select-7"
+                  aria-haspopup="listbox"
+                  aria-expanded="false"
+                  title="Choose City"
+                >
+                  <div class="filter-option">
+                    <div class="filter-option-inner">
+                      <div class="filter-option-inner-inner">Choose City</div>
+                    </div>
+                  </div>
+                </button>
+                <div class="dropdown-menu">
+                  <div
+                    class="inner show"
+                    role="listbox"
+                    id="bs-select-7"
+                    tabindex="-1"
+                  >
+                    <ul
+                      class="dropdown-menu inner show"
+                      role="presentation"
+                    ></ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label>State</label>
+              <div class="dropdown bootstrap-select search-fields">
+                <select class="selectpicker search-fields" name="state">
+                  <option>Choose State</option>
+                  <option>Alabama</option>
+                  <option>Alaska</option>
+                  <option>Arizona</option>
+                  <option>Arkansas</option>
+                  <option>California</option>
+                  <option>Colorado</option>
+                  <option>Connecticut</option>
+                  <option>Delaware</option>
+                  <option>Florida</option>
+                  <option>Georgia</option>
+                  <option>Hawaii</option></select
+                ><button
+                  type="button"
+                  tabindex="-1"
+                  class="btn dropdown-toggle btn-light"
+                  data-bs-toggle="dropdown"
+                  role="combobox"
+                  aria-owns="bs-select-8"
+                  aria-haspopup="listbox"
+                  aria-expanded="false"
+                  title="Choose State"
+                >
+                  <div class="filter-option">
+                    <div class="filter-option-inner">
+                      <div class="filter-option-inner-inner">Choose State</div>
+                    </div>
+                  </div>
+                </button>
+                <div class="dropdown-menu">
+                  <div
+                    class="inner show"
+                    role="listbox"
+                    id="bs-select-8"
+                    tabindex="-1"
+                  >
+                    <ul
+                      class="dropdown-menu inner show"
+                      role="presentation"
+                    ></ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label for="inputcode1" class="form-label">Postal Code</label>
+              <input
+                type="text"
+                name="code"
+                class="form-control"
+                id="inputcode1"
+                placeholder="Postal Code"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="main-title-2">
+          <h1>Detailed Information</h1>
+        </div>
+        <div class="row mb-30">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Detailed Information</label>
+              <textarea
+                name="message"
+                class="form-control"
+                rows="3"
+                placeholder="Detailed Information"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-30">
+          <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label>Building Age <span>(optional)</span></label>
+              <div class="dropdown bootstrap-select search-fields">
+                <select class="selectpicker search-fields" name="years">
+                  <option>0-1 Years</option>
+                  <option>0-5 Years</option>
+                  <option>0-10 Years</option>
+                  <option>0-20 Years</option>
+                  <option>0-40 Years</option>
+                  <option>40+Years</option></select
+                ><button
+                  type="button"
+                  tabindex="-1"
+                  class="btn dropdown-toggle btn-light"
+                  data-bs-toggle="dropdown"
+                  role="combobox"
+                  aria-owns="bs-select-9"
+                  aria-haspopup="listbox"
+                  aria-expanded="false"
+                  title="0-1 Years"
+                >
+                  <div class="filter-option">
+                    <div class="filter-option-inner">
+                      <div class="filter-option-inner-inner">0-1 Years</div>
+                    </div>
+                  </div>
+                </button>
+                <div class="dropdown-menu">
+                  <div
+                    class="inner show"
+                    role="listbox"
+                    id="bs-select-9"
+                    tabindex="-1"
+                  >
+                    <ul
+                      class="dropdown-menu inner show"
+                      role="presentation"
+                    ></ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label>Bedrooms (optional)</label>
+              <div class="dropdown bootstrap-select search-fields">
+                <select class="selectpicker search-fields" name="bedrooms">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option></select
+                ><button
+                  type="button"
+                  tabindex="-1"
+                  class="btn dropdown-toggle btn-light"
+                  data-bs-toggle="dropdown"
+                  role="combobox"
+                  aria-owns="bs-select-10"
+                  aria-haspopup="listbox"
+                  aria-expanded="false"
+                  title="1"
+                >
+                  <div class="filter-option">
+                    <div class="filter-option-inner">
+                      <div class="filter-option-inner-inner">1</div>
+                    </div>
+                  </div>
+                </button>
+                <div class="dropdown-menu">
+                  <div
+                    class="inner show"
+                    role="listbox"
+                    id="bs-select-10"
+                    tabindex="-1"
+                  >
+                    <ul
+                      class="dropdown-menu inner show"
+                      role="presentation"
+                    ></ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label>Bathrooms (optional)</label>
+              <div class="dropdown bootstrap-select search-fields">
+                <select class="selectpicker search-fields" name="bathrooms">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option></select
+                ><button
+                  type="button"
+                  tabindex="-1"
+                  class="btn dropdown-toggle btn-light"
+                  data-bs-toggle="dropdown"
+                  role="combobox"
+                  aria-owns="bs-select-11"
+                  aria-haspopup="listbox"
+                  aria-expanded="false"
+                  title="1"
+                >
+                  <div class="filter-option">
+                    <div class="filter-option-inner">
+                      <div class="filter-option-inner-inner">1</div>
+                    </div>
+                  </div>
+                </button>
+                <div class="dropdown-menu">
+                  <div
+                    class="inner show"
+                    role="listbox"
+                    id="bs-select-11"
+                    tabindex="-1"
+                  >
+                    <ul
+                      class="dropdown-menu inner show"
+                      role="presentation"
+                    ></ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <div class="main-title-2">
+              <h1>Features (optional)</h1>
+            </div>
+            <div class="row">
+              <div class="col-lg-4 col-sm-6 col-xs-12">
+                <div class="checkbox checkbox-theme checkbox-circle">
+                  <input id="checkbox1" type="checkbox" />
+                  <label for="checkbox1"> Free Parking </label>
+                </div>
+                <div class="checkbox checkbox-theme checkbox-circle">
+                  <input id="checkbox2" type="checkbox" />
+                  <label for="checkbox2"> Air Condition </label>
+                </div>
+                <div class="checkbox checkbox-theme checkbox-circle">
+                  <input id="checkbox3" type="checkbox" />
+                  <label for="checkbox3"> Places to seat </label>
+                </div>
+              </div>
+              <div class="col-lg-4 col-sm-6 col-xs-12">
+                <div class="checkbox checkbox-theme checkbox-circle">
+                  <input id="checkbox4" type="checkbox" />
+                  <label for="checkbox4"> Swimming Pool </label>
+                </div>
+                <div class="checkbox checkbox-theme checkbox-circle">
+                  <input id="checkbox5" type="checkbox" />
+                  <label for="checkbox5"> Laundry Room </label>
+                </div>
+                <div class="checkbox checkbox-theme checkbox-circle">
+                  <input id="checkbox6" type="checkbox" />
+                  <label for="checkbox6"> Window Covering </label>
+                </div>
+              </div>
+              <div class="col-lg-4 col-sm-6 col-xs-12">
+                <div class="checkbox checkbox-theme checkbox-circle">
+                  <input id="checkbox7" type="checkbox" />
+                  <label for="checkbox7"> Central Heating </label>
+                </div>
+                <div class="checkbox checkbox-theme checkbox-circle">
+                  <input id="checkbox8" type="checkbox" />
+                  <label for="checkbox8"> Alarm </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="main-title-2">
+          <h1>Contact Details</h1>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label for="inputname2" class="form-label">Name</label>
+              <input
+                type="text"
+                name="name"
+                class="form-control"
+                id="inputname2"
+                placeholder="Name"
+              />
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label for="inputEmail2" class="form-label">Email</label>
+              <input
+                type="email"
+                name="email"
+                class="form-control"
+                id="inputEmail2"
+                placeholder="Email"
+              />
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label for="inputphone2" class="form-label"
+                >Phone (optional)</label
+              >
+              <input
+                type="text"
+                name="phone"
+                class="form-control"
+                id="inputphone2"
+                placeholder="Phone"
+              />
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <a class="btn-2 btn-defaults" href="#">
+              <span>Preview</span> <i class="arrow"></i>
+            </a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

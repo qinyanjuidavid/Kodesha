@@ -1,3 +1,5 @@
 from django.contrib import admin
+from Properties.models import Property_Type,Property
 
-# Register your models here.
+admin.site.register(Property)
+admin.site.register(Property_Type)

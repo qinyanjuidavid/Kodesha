@@ -1,0 +1,75 @@
+{%extends 'accounts/base.html'%}
+<!---->
+{%block title%} {%endblock%}
+<!---->
+{%block content%}
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-lg-8 col-md-12 col-xs-12">
+      <!--Property-->
+      {%for property in properties%}
+      <div class="card shadow-lg mt-2">
+        <div class="row">
+          <div class="col-lg-5 col-md-5 col-sm-12">
+            <img
+              src="{{property.property_gallery.url}}"
+              class="img-fluid"
+              alt=""
+            />
+          </div>
+          <div class="col-lg-7 col-md-7 col-sm-12">
+            <div class="card-body">
+              <h1>
+                <a>{{property.property_title|title}}</a>
+              </h1>
+              <h3>
+                <a>
+                  <i class="fa fa-map-marker"></i>
+                  {{property.address|title}}
+                </a>
+              </h3>
+              <ul class="">
+                <li>
+                  <i
+                    class="
+                      flaticon-square-layouting-with-black-square-in-east-area
+                    "
+                  ></i>
+                  <span>4679 sq ft</span>
+                </li>
+                <li>
+                  <i class=""></i>
+                  <span>TV</span>
+                </li>
+                <li>
+                  <i class=""></i>
+                  <span>2 Baths</span>
+                </li>
+
+                <li>
+                  <i class=""></i>
+                  <span>1 Garage</span>
+                </li>
+                <li>
+                  <i class=""></i>
+                  <span>3 Balcony</span>
+                </li>
+              </ul>
+              <hr />
+            </div>
+          </div>
+        </div>
+      </div>
+      {%endfor%}
+      <!--End property-->
+    </div>
+    <div class="col-lg-4 col-md-12 col-xs-12">
+      <div class="card">
+        <h1>Advanced Search</h1>
+      </div>
+    </div>
+  </div>
+</div>
+{%endblock%}
+<!---->
+{%block javascript%}{%endblock%}
