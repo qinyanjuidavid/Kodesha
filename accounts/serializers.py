@@ -25,3 +25,21 @@ class LoginSerializer(TokenObtainPairSerializer):
         if api_settings.UPDATE_LAST_LOGIN:
             update_last_login(None, self.user)
         return data
+
+
+class RegisterSerializer(UserSerializer):
+    password = serializers.CharField(
+        max_length=128, min_length=4, write_only=True, required=True)
+    email = serializers.EmailField(
+        required=True, write_only=True, max_length=128)
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'password', 'is_active']
+
+    def create(self, validated_data):
+        try:
+            user = User.objects.get(email=validated_data['email'])
+        except ObjectDoesNotExist:
+            user = User.objects.create_user(**validated_data)
+        return user
