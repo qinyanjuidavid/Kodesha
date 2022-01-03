@@ -56,6 +56,7 @@ class Property(TrackingModel):
         _("Building age"), choices=building_age_choice, max_length=56)
     floor_plan = models.ImageField(
         _("floor plan"), upload_to="building plan", blank=True, null=True)
+    featured = models.BooleanField(_("featured"), default=False)
     parking = models.BooleanField(_("parking"), default=False)
     air_conditioning = models.BooleanField(_("air Condition"), default=False)
     swimming_pool = models.BooleanField(_("swimming pool"), default=False)

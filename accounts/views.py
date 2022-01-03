@@ -48,7 +48,7 @@ class RegistrationViewSet(ModelViewSet, TokenObtainPairView):
     permission_classes = (AllowAny,)
     http_method_names = ['post']
 
-    def create(self, request, args, **kwargs):
+    def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
