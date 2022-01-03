@@ -8,8 +8,8 @@ class PropertyTypeSerializer(ModelSerializer):
         fields = ('type', 'added_by')
 
 
-class PropertySerializer(PropertyTypeSerializer):
-    # property_type = PropertyTypeSerializer(read_only=True, many=True)
+class PropertySerializer(ModelSerializer):
+    # property_type = PropertyTypeSerializer(read_only=True)
 
     class Meta:
         model = Property

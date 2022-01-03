@@ -68,6 +68,11 @@ class Property(TrackingModel):
     gym = models.BooleanField(_("gym"), default=False)
     dining_room = models.BooleanField(_("dining_room"), default=False)
     added_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    list = models.BooleanField(_("list"), default=False)
 
     def __str__(self):
         return self.property_title
+
+    class Meta:
+        verbose_name_plural = "Properties"
+        ordering = ["featured", "created_at"]

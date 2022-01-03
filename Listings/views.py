@@ -5,8 +5,10 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import status
 from Listings.serializers import PropertySerializer, PropertyTypeSerializer
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from accounts.models import User
+from Listings.models import Property, Property_Type
 
 
 class PropertySubmissionView(ModelViewSet):
@@ -22,6 +24,13 @@ class PropertySubmissionView(ModelViewSet):
         return Response(serializer.data)
 
 
+@api_view(["GET", ])
+@permission_classes([AllowAny])
 def PropertyListingView(request):
-
-    return Response({"Message": "Property Listing"})
+    propertyQuery = Property.objects.filter(
+        sold=False, rented=False,
+        list=True).order_by("-featured")
+    if request.method == "GET":
+        serializer = PropertySerializer(propertyQuery, many=True)
+        return Response(serializer.data,
+                        status=status.HTTP_200_OK)
