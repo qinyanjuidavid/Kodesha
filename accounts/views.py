@@ -16,11 +16,31 @@ from django.views.generic import CreateView
 from accounts.tokens import account_activation_token
 from accounts.sendMails import send_activation_mail
 from accounts.models import User
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from accounts.serializers import UserSerializer
+from accounts.serializers import (
+    UserSerializer, LoginSerializer,
+    RegisterSerializer)
 from rest_framework import status
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.viewsets import ModelViewSet
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
+
+
+class LoginViewSet(ModelViewSet, TokenObtainPairView):
+    serializer_class = LoginSerializer
+    permission_classes = (AllowAny,)
+    http_method_names = ['post']
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        try:
+            serializer.is_valid(raise_exception=True)
+        except TokenError as e:
+            raise InvalidToken(e.args[0])
+        return Response(serializer.validated_data, status=status.HTTP_200_OK)
 
 
 @api_view(["GET", "POST", "PUT", "DELETE"])
