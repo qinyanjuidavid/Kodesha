@@ -26,14 +26,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Local Apps
-    'accounts.apps.AccountsConfig',
-    'Listings.apps.ListingsConfig',
-    'api.apps.ApiConfig',
     # 3rd party apps
     'crispy_forms',
     'phonenumber_field',
     'rest_framework',
+    # Local Apps
+    'accounts.apps.AccountsConfig',
+    'Listings.apps.ListingsConfig',
+    'api.apps.ApiConfig',
 ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (

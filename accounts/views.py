@@ -22,8 +22,8 @@ from rest_framework.response import Response
 from accounts.serializers import (
     UserSerializer, LoginSerializer,
     RegisterSerializer)
-from rest_framework import status
-from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework import status, viewsets
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
@@ -64,6 +64,21 @@ class RegistrationViewSet(ModelViewSet, TokenObtainPairView):
                         }, status=status.HTTP_201_CREATED)
 
 
+class RefreshViewSet(viewsets.ViewSet, TokenRefreshView):
+    permission_classes = (AllowAny,)
+    http_method_names = ['post']
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+
+        try:
+            serializer.is_valid(raise_exception=True)
+        except TokenError as e:
+            raise InvalidToken(e.args[0])
+
+        return Response(serializer.validated_data, status=status.HTTP_200_OK)
+
+
 @api_view(["GET", "POST", "PUT", "DELETE"])
 @permission_classes([IsAuthenticated])
 def UserViewAPI(request):
@@ -71,7 +86,3 @@ def UserViewAPI(request):
     if request.method == "GET":
         serializer = UserSerializer(userQuery, many=True)
         return Response(serializer.data)
-    elif request.method == "PUT":
-        return Response({"": ""})
-    elif request.method == "DELETE":
-        return Response({"": ""})
