@@ -6,7 +6,6 @@ from django.utils.translation import gettext as _
 from phonenumber_field.modelfields import PhoneNumberField
 
 
-
 class TrackingModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -19,13 +18,13 @@ class TrackingModel(models.Model):
 class CustomManager(BaseUserManager):
     def create_user(self, email, username, password=None,
                     is_active=True, is_admin=False,
-                    is_staff=False, role=""):
-        if not email:
-            raise ValueError("Users must have an email!")
-        if not password:
-            raise ValueError("Users must have a password!")
-        if not username:
-            raise ValueError("Users must have  a username!")
+                    is_staff=False, role="", *args, **kwargs):
+        if email is None:
+            raise ValueError("Users must have an email.")
+        if password is None:
+            raise ValueError("Users must have a password.")
+        if username is None:
+            raise ValueError("Users must have  a username.")
         user_obj = self.model(
             email=self.normalize_email(email), username=username
         )
@@ -38,7 +37,7 @@ class CustomManager(BaseUserManager):
 
         return user_obj
 
-    def create_staff(self, email, username, password=None):
+    def create_staff(self, email, username, password):
         user = self.create_user(
             email, username,
             password=password, is_active=True,
@@ -47,7 +46,7 @@ class CustomManager(BaseUserManager):
         )
         return user
 
-    def create_superuser(self, email, username, password=None):
+    def create_superuser(self, email, username, password):
         user = self.create_user(
             email, username,
             password=password, is_active=True,
@@ -60,9 +59,8 @@ class CustomManager(BaseUserManager):
 class User(AbstractBaseUser, TrackingModel):
     username_validator = UnicodeUsernameValidator()
     Role_choices = (
-        ("Administrator", "Administrator"),
-        ("Buyer","Buyer"),
-        ("Seller","Seller")
+        ("Buyer", "Buyer"),
+        ("Seller", "Seller")
     )
     username = models.CharField(
         _('username'),
@@ -140,17 +138,20 @@ class Profile(models.Model):
     class Meta:
         abstract = True
 
+
 class Administrator(Profile):
     pass
 
     def __str__(self):
         return self.user.username
 
+
 class Buyer(Profile):
     pass
 
     def __str__(self):
         return self.user.username
+
 
 class Seller(Profile):
     pass

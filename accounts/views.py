@@ -16,57 +16,21 @@ from django.views.generic import CreateView
 from accounts.tokens import account_activation_token
 from accounts.sendMails import send_activation_mail
 from accounts.models import User
-from accounts.forms import UserSignupForm
-
-class BuyerSignupView(CreateView):
-	model=User
-	form_class=UserSignupForm
-	template_name="accounts/clientSignup.html"
-
-	def get_context_data(self,**kwargs):
-		kwargs['user_type'] = 'client'
-		return super().get_context_data(**kwargs)
-
-	def form_valid(self, form):
-		if form.is_valid():
-			user = form.save(commit=False)
-			user.role = "Role"
-			user.save()
-			send_activation_mail(user, self.request)
-		return render(self.request, "accounts/sign_alert.html")
-
-class SellerSignupView(CreateView):
-	model=User
-	form_class=UserSignupForm
-	template_name="accounts/sellerSignup.html"
-
-	def get_context_data(self,**kwargs):
-		kwargs['user_type'] = 'client'
-		return super().get_context_data(**kwargs)
-
-	def form_valid(self, form):
-		if form.is_valid():
-			user = form.save(commit=False)
-			user.role="Seller"
-			user.save()
-			send_activation_mail(user, self.request)
-		return render(self.request, "accounts/sign_alert.html")
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
+from accounts.serializers import UserSerializer
+from rest_framework import status
 
 
-
-def activate(request, uidb64, token):
-    try:
-        uid = force_text(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
-    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
-        user = None
-
-    if user is not None and account_activation_token.check_token(user, token):
-        user.is_active = True
-        user.save()
-
-        login(request, user)
-
-        return render(request, 'accounts/activate_success.html')
-    else:
-        return render(request, 'accounts/activate_fail.html')
+@api_view(["GET", "POST", "PUT", "DELETE"])
+@permission_classes([IsAuthenticated])
+def UserViewAPI(request):
+    userQuery = User.objects.all()
+    if request.method == "GET":
+        serializer = UserSerializer(userQuery, many=True)
+        return Response(serializer.data)
+    elif request.method == "PUT":
+        return Response({"": ""})
+    elif request.method == "DELETE":
+        return Response({"": ""})
