@@ -54,45 +54,34 @@ def propertyDetailsView(request, id):
 class SellerPropertyListView(ModelViewSet):
     serializer_class = PropertySerializer
     permission_classes = ()
-    http_method_names = ['get', 'post']
+    http_method_names = ['get', ]
     sellerQuery = Seller.objects.get(id=1)
     queryset = Property.objects.filter(added_by=sellerQuery)
 
     def list(self, request):
-        queryset = self.get_queryset()
         serializer = self.get_serializer(
-            queryset, many=True
+            self.queryset, many=True
         )
         return Response(serializer.data,
                         status=status.HTTP_200_OK)
-
-    def create(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        serializer = self.get_serializer(queryset, data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data,
-                        status=status.HTTP_201_CREATED)
 
 
 class SellerPropertyUpdateView(ModelViewSet):
     serializer_class = PropertySerializer
     permission_classes = ()
     http_method_names = ["get", "put", "delete"]
+    ownerQuery = Seller.objects.get(id=1)
+    queryset = Property.objects.filter(added_by=ownerQuery)
 
     def retrieve(self, request, pk=None, *args, **kwargs):
-        ownerQuery = Seller.objects.get(id=1)
-        queryset = Property.objects.filter(added_by=ownerQuery)
-        property = get_object_or_404(queryset, pk=pk)
+        property = get_object_or_404(self.queryset, pk=pk)
         serializer = self.get_serializer(
             property)
 
         return Response(serializer.data)
 
     def update(self, request, pk=None, *args, **kwargs):
-        ownerQuery = Seller.objects.get(id=1)
-        queryset = Property.objects.filter(added_by=ownerQuery)
-        property = get_object_or_404(queryset, pk=pk)
+        property = get_object_or_404(self.queryset, pk=pk)
         serializer = self.get_serializer(
             instance=property, data=request.data
         )
@@ -101,8 +90,6 @@ class SellerPropertyUpdateView(ModelViewSet):
         return Response(serializer.data)
 
     def delete(self, request, pk=None, *args, **kwargs):
-        ownerQuery = Seller.objects.get(id=1)
-        queryset = Property.objects.filter(added_by=ownerQuery)
-        property = get_object_or_404(queryset, pk=pk)
+        property = get_object_or_404(self.queryset, pk=pk)
         property.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

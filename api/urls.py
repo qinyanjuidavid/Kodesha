@@ -22,7 +22,7 @@ routes.register(r'register', RegistrationViewSet, basename='register')
 routes.register(r'auth/refresh', RefreshViewSet, basename='auth-refresh')
 routes.register("property/submission", PropertySubmissionView,
                 basename="propertySubmission")
-routes.register("property", SellerPropertyUpdateView,
+routes.register("myproperty/details", SellerPropertyUpdateView,
                 basename="propertyUpdate")
 routes.register('myproperty', SellerPropertyListView,
                 basename="sellerProperty")
