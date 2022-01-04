@@ -1,6 +1,6 @@
 from django.db import models
 from django.db.models.fields import PositiveIntegerField
-from accounts.models import User, TrackingModel, Administrator
+from accounts.models import User, TrackingModel, Administrator, Seller
 from django.utils.translation import gettext as _
 
 
@@ -56,6 +56,7 @@ class Property(TrackingModel):
         _("Building age"), choices=building_age_choice, max_length=56)
     floor_plan = models.ImageField(
         _("floor plan"), upload_to="building plan", blank=True, null=True)
+    featured = models.BooleanField(_("featured"), default=False)
     parking = models.BooleanField(_("parking"), default=False)
     air_conditioning = models.BooleanField(_("air Condition"), default=False)
     swimming_pool = models.BooleanField(_("swimming pool"), default=False)
@@ -66,7 +67,12 @@ class Property(TrackingModel):
     wifi = models.BooleanField(_("wifi"), default=False)
     gym = models.BooleanField(_("gym"), default=False)
     dining_room = models.BooleanField(_("dining_room"), default=False)
-    added_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    added_by = models.ForeignKey(Seller, on_delete=models.CASCADE)
+    list = models.BooleanField(_("list"), default=False)
 
     def __str__(self):
         return self.property_title
+
+    class Meta:
+        verbose_name_plural = "Properties"
+        ordering = ["featured", "created_at"]
