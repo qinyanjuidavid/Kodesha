@@ -1,6 +1,6 @@
 from django.db import models
 from django.db.models.fields import PositiveIntegerField
-from accounts.models import User, TrackingModel, Administrator
+from accounts.models import User, TrackingModel, Administrator, Seller
 from django.utils.translation import gettext as _
 
 
@@ -67,7 +67,7 @@ class Property(TrackingModel):
     wifi = models.BooleanField(_("wifi"), default=False)
     gym = models.BooleanField(_("gym"), default=False)
     dining_room = models.BooleanField(_("dining_room"), default=False)
-    added_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    added_by = models.ForeignKey(Seller, on_delete=models.CASCADE)
     list = models.BooleanField(_("list"), default=False)
 
     def __str__(self):
