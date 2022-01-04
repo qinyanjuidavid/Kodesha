@@ -55,12 +55,17 @@ class SellerPropertyListView(ModelViewSet):
     serializer_class = PropertySerializer
     permission_classes = ()
     http_method_names = ['get', ]
-    sellerQuery = Seller.objects.get(id=1)
-    queryset = Property.objects.filter(added_by=sellerQuery)
+
+    def get_queryset(self):
+        user = self.request.user
+        sellerQuery = Seller.objects.get(id=1)
+
+        return Property.objects.filter(added_by=sellerQuery)
 
     def list(self, request):
+        queryset = self.get_queryset()
         serializer = self.get_serializer(
-            self.queryset, many=True
+            queryset, many=True
         )
         return Response(serializer.data,
                         status=status.HTTP_200_OK)
@@ -70,18 +75,23 @@ class SellerPropertyUpdateView(ModelViewSet):
     serializer_class = PropertySerializer
     permission_classes = ()
     http_method_names = ["get", "put", "delete"]
-    ownerQuery = Seller.objects.get(id=1)
-    queryset = Property.objects.filter(added_by=ownerQuery)
+
+    def get_queryset(self):
+        user = self.request.user
+        ownerQuery = Seller.objects.get(id=1)
+        return Property.objects.filter(added_by=ownerQuery)
 
     def retrieve(self, request, pk=None, *args, **kwargs):
-        property = get_object_or_404(self.queryset, pk=pk)
+        queryset = self.get_queryset()
+        property = get_object_or_404(queryset, pk=pk)
         serializer = self.get_serializer(
             property)
 
         return Response(serializer.data)
 
     def update(self, request, pk=None, *args, **kwargs):
-        property = get_object_or_404(self.queryset, pk=pk)
+        queryset = self.get_queryset()
+        property = get_object_or_404(queryset, pk=pk)
         serializer = self.get_serializer(
             instance=property, data=request.data
         )
@@ -90,6 +100,7 @@ class SellerPropertyUpdateView(ModelViewSet):
         return Response(serializer.data)
 
     def delete(self, request, pk=None, *args, **kwargs):
-        property = get_object_or_404(self.queryset, pk=pk)
+        queryset = self.get_queryset()
+        property = get_object_or_404(queryset, pk=pk)
         property.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
