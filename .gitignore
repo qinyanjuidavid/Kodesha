@@ -133,3 +133,4 @@ dmypy.json
 /migrations
 /_pycache_
 /notes.md
+.vscode
