@@ -24,6 +24,8 @@ routes.register("property/submission", PropertySubmissionView,
                 basename="propertySubmission")
 routes.register("property", SellerPropertyUpdateView,
                 basename="propertyUpdate")
+routes.register('myproperty', SellerPropertyListView,
+                basename="sellerProperty")
 urlpatterns = [
     *routes.urls,
     path('users/', UserViewAPI, name="users"),
@@ -31,6 +33,4 @@ urlpatterns = [
          PropertyListingView, name="propertyListing"),
     path('property/<int:id>/details/',
          propertyDetailsView, name="propertyDetails"),
-    path('myproperty/',
-         SellerPropertyListView, name="sellerProperty"),
 ]

@@ -1,3 +1,4 @@
+from django.db.models import query
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from rest_framework.response import Response
@@ -50,19 +51,28 @@ def propertyDetailsView(request, id):
 # Sellers can see their properties
 
 
-@api_view(["GET", ])
-@permission_classes([])
-def SellerPropertyListView(request):
-    sellerQuery = Seller.objects.get(id=2)
-    propertyQs = Property.objects.filter(added_by=sellerQuery)
-    if request.method == "GET":
-        serializer = PropertySerializer(propertyQs, many=True)
+class SellerPropertyListView(ModelViewSet):
+    serializer_class = PropertySerializer
+    permission_classes = ()
+    http_method_names = ['get', 'post']
+    sellerQuery = Seller.objects.get(id=1)
+    queryset = Property.objects.filter(added_by=sellerQuery)
+
+    def list(self, request):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(
+            queryset, many=True
+        )
         return Response(serializer.data,
                         status=status.HTTP_200_OK)
 
-
-class SellerPropertyListView(ModelViewSet):
-    pass
+    def create(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data,
+                        status=status.HTTP_201_CREATED)
 
 
 class SellerPropertyUpdateView(ModelViewSet):
