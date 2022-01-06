@@ -1,4 +1,5 @@
-from accounts.models import User
+from Listings.serializers import PropertySerializer
+from accounts.models import Administrator, User, Seller, Buyer
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.settings import api_settings
@@ -16,9 +17,43 @@ from rest_framework.exceptions import AuthenticationFailed
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ("id", "username", "email", "is_active")
+        fields = ("id", "username", "full_name",
+                  "email", "is_active", "phone",
+                  "is_admin", "is_staff", "role", "timestamp")
 
-        read_only_field = ("id", "is_active",)
+        read_only_field = ("id", "is_active",
+                           "is_admin", "is_staff", "role",
+                           "timestamp")
+
+
+class AdminProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer(many=False)
+
+    class Meta:
+        model = Administrator
+        fields = ("id", "user", "bio",
+                  "profile_picture", "id_no", "town",
+                  "estate", "timestamp")
+
+
+class BuyerProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer(many=False)
+
+    class Meta:
+        model = Buyer
+        fields = ("id", "user", "bio",
+                  "profile_picture", "id_no", "town",
+                  "estate", "timestamp")
+
+
+class SellerProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer(many=False)
+
+    class Meta:
+        model = Seller
+        fields = ("id", "user", "bio",
+                  "profile_picture", "id_no", "town",
+                  "estate", "timestamp")
 
 
 class LoginSerializer(TokenObtainPairSerializer):
