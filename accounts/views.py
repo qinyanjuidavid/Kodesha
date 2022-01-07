@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.files.base import File
 from django.core.mail import BadHeaderError, EmailMessage, send_mail
-from django.db.models import Q
+from django.db.models import Q, query
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.template.loader import render_to_string
@@ -41,6 +41,7 @@ from django.conf import settings
 from django.utils.encoding import (DjangoUnicodeDecodeError, force_str,
                                    smart_bytes, smart_str)
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.db.models import Q
 
 
 class LoginViewSet(ModelViewSet, TokenObtainPairView):
@@ -186,20 +187,31 @@ class SetNewPasswordAPIView(ModelViewSet):
 class AdminProfileAPIView(ModelViewSet):
     serializer_class = AdminProfileSerializer
     permission_classes = ()
-    http_method_names = ['put']
+    http_method_names = ['put', 'get']
 
     def get_queryset(self):
         user = self.request.user
-        return Administrator.objects.filter(user__username="day")
+        return Administrator.objects.filter(
+            Q(user__username="day"))
 
-    def update(self, request, args, **kwargs):
+    # def retrieve(self, request, *args, **kwargs):
+    #     queryset = self.get_queryset()
+    #     serializer = self.get_serializer(queryset)
+    #     return Response(serializer.data)
+
+    def update(self, request, *args, **kwargs):
         queryset = self.get_queryset()
-        queryset = get_object_or_404(queryset, user__username="day")
-        serializer = self.get_serializer(
-            instance=queryset, data=request.data)
-        serializer.is_valid(raise_exception=True)
+        serializer = self.get_serializer(instance=queryset, data=request.data)
+        serializer.is_valid(reaise_exception=True)
         serializer.save()
         return Response(serializer.data)
+    # def update(self, request, args, username ** kwargs):
+    #     queryset = self.get_queryset()
+    #     serializer = self.get_serializer(
+    #         instance=queryset, data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save()
+    #     return Response(serializer.data)
 
 
 class SellerProfileAPIView(ModelViewSet):
