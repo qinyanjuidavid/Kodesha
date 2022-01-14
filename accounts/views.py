@@ -212,7 +212,33 @@ class AdminProfileAPIView(ModelViewSet):
 
 
 class SellerProfileAPIView(ModelViewSet):
-    pass
+    serializer_class = SellerProfileSerializer
+    permission_classes = [IsAuthenticated]
+    http_method_names = ["get", "put"]
+
+    def get_queryset(self):
+        user = self.request.user
+        sellerQuery = Seller.objects.filter(
+            Q(user=user)
+        )
+        return sellerQuery
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        userSerializer = UserSerializer(
+            request.user, data=request.data["user"]
+        )
+        userSerializer.is_valid(raise_exception=True)
+        userSerializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class BuyerProfileAPIView(ModelViewSet):
