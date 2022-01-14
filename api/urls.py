@@ -6,7 +6,8 @@ from accounts.views import (
     RegistrationViewSet,
     RefreshViewSet, SetNewPasswordAPIView,
     VerifyEmail, PasswordTokenCheckAPI,
-    RequestPasswordResetEmail, AdminProfileAPIView
+    RequestPasswordResetEmail, AdminProfileAPIView,
+    SellerProfileAPIView, BuyerProfileAPIView
 )
 from Listings.views import (
     PropertySubmissionView,
@@ -31,8 +32,13 @@ routes.register('password-reset', RequestPasswordResetEmail,
                 basename="requestPasswordReset")
 routes.register('password-reset-complete',  SetNewPasswordAPIView,
                 basename="password-reset-complete")
+
 routes.register('admin/profile', AdminProfileAPIView,
                 basename="adminProfile")
+routes.register('seller/profile', SellerProfileAPIView,
+                basename="sellerProfile")
+routes.register('buyer/profile', BuyerProfileAPIView,
+                basename="buyerProfile")
 urlpatterns = [
     *routes.urls,
     path('property/listings/',
