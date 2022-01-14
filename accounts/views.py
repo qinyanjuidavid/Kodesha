@@ -1,19 +1,24 @@
+import jwt
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.files.base import File
 from django.core.mail import BadHeaderError, EmailMessage, send_mail
-from django.db.models import Q
+from django.db.models import Q, query
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
-from django.utils.encoding import force_bytes, force_text
+from django.utils.encoding import (DjangoUnicodeDecodeError, force_bytes,
+                                   force_str, force_text, smart_bytes,
+                                   smart_str)
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.views.decorators.cache import never_cache
 from django.views.generic import CreateView
-from rest_framework import status, viewsets, generics
+from rest_framework import generics, status, viewsets
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -23,20 +28,15 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import (TokenObtainPairView,
                                             TokenRefreshView)
 
-from accounts.models import User
-from accounts.sendMails import (
-    send_activation_mail,
-    send_password_reset_email)
-from accounts.serializers import (LoginSerializer, RegisterSerializer,
-                                  SetNewPasswordSerializer, UserSerializer,
-                                  ResetPasswordEmailRequestSerializer)
+from accounts.models import Administrator, Buyer, Seller, User
+from accounts.sendMails import send_activation_mail, send_password_reset_email
+from accounts.serializers import (AdminProfileSerializer,
+                                  BuyerProfileSerializer, LoginSerializer,
+                                  RegisterSerializer,
+                                  ResetPasswordEmailRequestSerializer,
+                                  SellerProfileSerializer,
+                                  SetNewPasswordSerializer, UserSerializer)
 from accounts.tokens import account_activation_token
-import jwt
-from django.conf import settings
-
-from django.utils.encoding import (DjangoUnicodeDecodeError, force_str,
-                                   smart_bytes, smart_str)
-from django.contrib.auth.tokens import PasswordResetTokenGenerator
 
 
 class LoginViewSet(ModelViewSet, TokenObtainPairView):
@@ -177,3 +177,90 @@ class SetNewPasswordAPIView(ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         return Response(serializer.data)
+
+
+class AdminProfileAPIView(ModelViewSet):
+    serializer_class = AdminProfileSerializer
+    permission_classes = [IsAuthenticated]
+    http_method_names = ["get", "put", ]
+
+    def get_queryset(self):
+        user = self.request.user
+        adminQuery = Administrator.objects.filter(
+            Q(user=user)
+        )
+        # X-CSRFToken
+        return adminQuery
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data)
+
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        userSerializer = UserSerializer(
+            request.user, data=request.data["user"])
+        userSerializer.is_valid(raise_exception=True)
+        userSerializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class SellerProfileAPIView(ModelViewSet):
+    serializer_class = SellerProfileSerializer
+    permission_classes = [IsAuthenticated]
+    http_method_names = ["get", "put"]
+
+    def get_queryset(self):
+        user = self.request.user
+        sellerQuery = Seller.objects.filter(
+            Q(user=user)
+        )
+        return sellerQuery
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        userSerializer = UserSerializer(
+            request.user, data=request.data["user"]
+        )
+        userSerializer.is_valid(raise_exception=True)
+        userSerializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class BuyerProfileAPIView(ModelViewSet):
+    serializer_class = BuyerProfileSerializer
+    permission_classes = [IsAuthenticated]
+    http_methods_names = ["get", "put"]
+
+    def get_queryset(self):
+        user = self.request.user
+        buyerQuery = Buyer.objects.filter(
+            Q(user=user)
+        )
+        return buyerQuery
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)

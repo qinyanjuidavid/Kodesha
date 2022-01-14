@@ -19,14 +19,14 @@ def send_activation_mail(user_data, request):
     relativeLink = reverse('api:email-verify')
     absurl = "http://"+current_site+relativeLink+"?token="+str(token)
     message = f"""
-Welcome To Tabibu Hospital,
+Welcome To Kodesha,
 
 Hi {user.username},
 Click on the link below to verify your account,
 {absurl}
 
 This is an automatically generated email. Please do not reply.
-@{datetime.date.today().year} Tabibu| Nairobi city
+@{datetime.date.today().year} Kodesha | Nairobi city
     """
     email = EmailMessage(
         subject=mail_subject,

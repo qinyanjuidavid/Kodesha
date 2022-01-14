@@ -60,7 +60,8 @@ class User(AbstractBaseUser, TrackingModel):
     username_validator = UnicodeUsernameValidator()
     Role_choices = (
         ("Buyer", "Buyer"),
-        ("Seller", "Seller")
+        ("Seller", "Seller"),
+        ("Administrator", "Administrator")
     )
     username = models.CharField(
         _('username'),

@@ -6,7 +6,8 @@ from accounts.views import (
     RegistrationViewSet,
     RefreshViewSet, SetNewPasswordAPIView,
     VerifyEmail, PasswordTokenCheckAPI,
-    RequestPasswordResetEmail
+    RequestPasswordResetEmail, AdminProfileAPIView,
+    SellerProfileAPIView, BuyerProfileAPIView
 )
 from Listings.views import (
     PropertySubmissionView,
@@ -31,6 +32,13 @@ routes.register('password-reset', RequestPasswordResetEmail,
                 basename="requestPasswordReset")
 routes.register('password-reset-complete',  SetNewPasswordAPIView,
                 basename="password-reset-complete")
+
+routes.register('admin/profile', AdminProfileAPIView,
+                basename="adminProfile")
+routes.register('seller/profile', SellerProfileAPIView,
+                basename="sellerProfile")
+routes.register('buyer/profile', BuyerProfileAPIView,
+                basename="buyerProfile")
 urlpatterns = [
     *routes.urls,
     path('property/listings/',
@@ -39,10 +47,10 @@ urlpatterns = [
          propertyDetailsView, name="propertyDetails"),
     path('activate/', VerifyEmail.as_view(),
          name="email-verify"),
-    # path('password-reset/', RequestPasswordResetEmail,
-    #      name="password-reset"),
+    path('password-reset/', RequestPasswordResetEmail,
+         name="password-reset"),
     path('password-reset/<uidb64>/<token>', PasswordTokenCheckAPI.as_view(),
          name='password-reset-confirm'),
-    # path('password-reset-complete/', SetNewPasswordAPIView,
-    #      name="password-reset-complete"),
+    path('password-reset-complete/', SetNewPasswordAPIView,
+         name="password-reset-complete"),
 ]
