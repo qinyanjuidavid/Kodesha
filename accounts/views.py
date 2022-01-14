@@ -242,4 +242,25 @@ class SellerProfileAPIView(ModelViewSet):
 
 
 class BuyerProfileAPIView(ModelViewSet):
-    pass
+    serializer_class = BuyerProfileSerializer
+    permission_classes = [IsAuthenticated]
+    http_methods_names = ["get", "put"]
+
+    def get_queryset(self):
+        user = self.request.user
+        buyerQuery = Buyer.objects.filter(
+            Q(user=user)
+        )
+        return buyerQuery
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
