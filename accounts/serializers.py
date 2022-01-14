@@ -15,29 +15,35 @@ from rest_framework.exceptions import AuthenticationFailed
 
 
 class UserSerializer(serializers.ModelSerializer):
+    Role_choices = (
+        ("Buyer", "Buyer"),
+        ("Seller", "Seller"),
+        ("Administrator", "Administrator")
+    )
+    role = serializers.ChoiceField(choices=Role_choices)
+
     class Meta:
         model = User
         fields = ("id", "username", "full_name",
-                  "email", "is_active", "phone",
-                  "is_admin", "is_staff", "role", "timestamp")
+                  "email", "phone",
+                  "role", "timestamp")
 
-        read_only_field = ("id", "is_active",
-                           "is_admin", "is_staff", "role",
-                           "timestamp")
+        read_only_field = ("id", "role",
+                           "email", "timestamp")
 
 
 class AdminProfileSerializer(serializers.ModelSerializer):
-    user = UserSerializer(many=False)
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = Administrator
         fields = ("id", "user", "bio",
-                  "profile_picture", "id_no", "town",
+                  "id_no", "town",
                   "estate", "timestamp")
 
 
 class BuyerProfileSerializer(serializers.ModelSerializer):
-    user = UserSerializer(many=False)
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = Buyer
@@ -47,7 +53,7 @@ class BuyerProfileSerializer(serializers.ModelSerializer):
 
 
 class SellerProfileSerializer(serializers.ModelSerializer):
-    user = UserSerializer(many=False)
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = Seller

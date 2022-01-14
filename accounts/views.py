@@ -1,6 +1,9 @@
+import jwt
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.files.base import File
 from django.core.mail import BadHeaderError, EmailMessage, send_mail
@@ -9,11 +12,13 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
-from django.utils.encoding import force_bytes, force_text
+from django.utils.encoding import (DjangoUnicodeDecodeError, force_bytes,
+                                   force_str, force_text, smart_bytes,
+                                   smart_str)
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.views.decorators.cache import never_cache
 from django.views.generic import CreateView
-from rest_framework import status, viewsets, generics
+from rest_framework import generics, status, viewsets
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -23,25 +28,15 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import (TokenObtainPairView,
                                             TokenRefreshView)
 
-from accounts.models import (User,
-                             Administrator, Seller, Buyer)
-from accounts.sendMails import (
-    send_activation_mail,
-    send_password_reset_email)
-from accounts.serializers import (LoginSerializer, RegisterSerializer,
-                                  SetNewPasswordSerializer, UserSerializer,
+from accounts.models import Administrator, Buyer, Seller, User
+from accounts.sendMails import send_activation_mail, send_password_reset_email
+from accounts.serializers import (AdminProfileSerializer,
+                                  BuyerProfileSerializer, LoginSerializer,
+                                  RegisterSerializer,
                                   ResetPasswordEmailRequestSerializer,
-                                  AdminProfileSerializer, BuyerProfileSerializer,
-                                  SellerProfileSerializer
-                                  )
+                                  SellerProfileSerializer,
+                                  SetNewPasswordSerializer, UserSerializer)
 from accounts.tokens import account_activation_token
-import jwt
-from django.conf import settings
-
-from django.utils.encoding import (DjangoUnicodeDecodeError, force_str,
-                                   smart_bytes, smart_str)
-from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from django.db.models import Q
 
 
 class LoginViewSet(ModelViewSet, TokenObtainPairView):
@@ -186,32 +181,34 @@ class SetNewPasswordAPIView(ModelViewSet):
 
 class AdminProfileAPIView(ModelViewSet):
     serializer_class = AdminProfileSerializer
-    permission_classes = ()
-    http_method_names = ['put', 'get']
+    permission_classes = [IsAuthenticated]
+    http_method_names = ["get", "put", ]
 
     def get_queryset(self):
         user = self.request.user
-        return Administrator.objects.filter(
-            Q(user__username="day"))
+        adminQuery = Administrator.objects.filter(
+            Q(user=user)
+        )
+        # X-CSRFToken
+        return adminQuery
 
-    # def retrieve(self, request, *args, **kwargs):
-    #     queryset = self.get_queryset()
-    #     serializer = self.get_serializer(queryset)
-    #     return Response(serializer.data)
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
     def update(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        serializer = self.get_serializer(instance=queryset, data=request.data)
-        serializer.is_valid(reaise_exception=True)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data)
+
+        serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(serializer.data)
-    # def update(self, request, args, username ** kwargs):
-    #     queryset = self.get_queryset()
-    #     serializer = self.get_serializer(
-    #         instance=queryset, data=request.data)
-    #     serializer.is_valid(raise_exception=True)
-    #     serializer.save()
-    #     return Response(serializer.data)
+
+        userSerializer = UserSerializer(
+            request.user, data=request.data["user"])
+        userSerializer.is_valid(raise_exception=True)
+        userSerializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class SellerProfileAPIView(ModelViewSet):
