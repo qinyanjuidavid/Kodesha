@@ -33,6 +33,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Local Apps
+    'accounts.apps.AccountsConfig',
+    'Listings.apps.ListingsConfig',
+    'api.apps.ApiConfig',
     # 3rd party apps
     'rest_framework',
     'crispy_forms',
@@ -41,10 +45,6 @@ INSTALLED_APPS = [
     'drf_yasg',
     'corsheaders',
     'rest_framework_simplejwt',
-    # Local Apps
-    'accounts.apps.AccountsConfig',
-    'Listings.apps.ListingsConfig',
-    'api.apps.ApiConfig',
 ]
 PHONENUMBER_DB_FORMAT = "NATIONAL"
 PHONENUMBER_DEFAULT_REGION = "KE"
