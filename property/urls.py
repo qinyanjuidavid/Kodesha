@@ -4,8 +4,8 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.documentation import include_docs_urls
 
-API_TITLE = "Gaswift"
-API_DESCRIPTION = "A Gas delivery API."
+API_TITLE = "Kodesha API"
+API_DESCRIPTION = "A Real Estate API."
 
 urlpatterns = [
     path('admin/', admin.site.urls),
