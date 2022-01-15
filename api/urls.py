@@ -12,9 +12,8 @@ from accounts.views import (
 from Listings.views import (
     PropertySubmissionView,
     PropertyListingView,
-    propertyDetailsView,
-    SellerPropertyListView,
-    SellerPropertyUpdateView,
+    #     SellerPropertyListView,
+    #     SellerPropertyUpdateView,
 )
 routes = SimpleRouter()
 app_name = 'api'
@@ -24,10 +23,10 @@ routes.register(r'register', RegistrationViewSet, basename='register')
 routes.register(r'auth/refresh', RefreshViewSet, basename='auth-refresh')
 routes.register("property/submission", PropertySubmissionView,
                 basename="propertySubmission")
-routes.register("myproperty/details", SellerPropertyUpdateView,
-                basename="propertyUpdate")
-routes.register('myproperty', SellerPropertyListView,
-                basename="sellerProperty")
+# routes.register("myproperty/details", SellerPropertyUpdateView,
+#                 basename="propertyUpdate")
+# routes.register('myproperty', SellerPropertyListView,
+#                 basename="sellerProperty")
 routes.register('password-reset', RequestPasswordResetEmail,
                 basename="requestPasswordReset")
 routes.register('password-reset-complete',  SetNewPasswordAPIView,
@@ -39,12 +38,11 @@ routes.register('seller/profile', SellerProfileAPIView,
                 basename="sellerProfile")
 routes.register('buyer/profile', BuyerProfileAPIView,
                 basename="buyerProfile")
+routes.register('property/listings', PropertyListingView,
+                basename="propertyListings")
 urlpatterns = [
     *routes.urls,
-    path('property/listings/',
-         PropertyListingView, name="propertyListing"),
-    path('property/<int:id>/details/',
-         propertyDetailsView, name="propertyDetails"),
+
     path('activate/', VerifyEmail.as_view(),
          name="email-verify"),
     path('password-reset/', RequestPasswordResetEmail,
